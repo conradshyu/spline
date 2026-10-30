@@ -3,7 +3,7 @@
 Written by [Conrad Shyu](mailto:conradshyu@hotmail.com)<br>
 *release 2, September 8, 2008*<br>
 *release 3, March 11, 2014*<br>
-*last updated on July 5, 2020*
+*last updated on October 30, 2026*
 
 ## Synopsis
 
@@ -21,7 +21,7 @@ manually, issue the command:
 
 `g++ -I. driver.cpp spline.cpp -o spline -lm`
 
-The archive lists three implementation files and an example file.
+Repository contents:
 
 | Filename | Description |
 | --- | --- |
@@ -31,6 +31,8 @@ The archive lists three implementation files and an example file.
 | `example.csv` | example file of simulations data from thermodynamic integration |
 | `Makefile` | the makefile to compile the source code |
 | `README.md` | this file |
+| `LICENSE` | GNU General Public License, version 3 |
+| `.gitignore` | ignores compiled files and other build artifacts |
 
 The purpose of the program is to construct a series of third degree polynomials (cubic spline functions) that
 optimally fits the thermodynamic integration data. The implementation also contains an estimate function that
@@ -43,7 +45,8 @@ The spline interpolation program takes three command-line parameters: `input_fil
 ## `input_file`
 
 The input file must be saved in the plain text format. The first column contains the lambda values and second the
-ensemble averages from the simulations. Each column of data must be separated by either a comma or a white space.
+ensemble averages from the simulations. Each column of data must be separated by a comma, semicolon, or whitespace
+(spaces or tabs). Lines beginning with `#` are ignored.
 For example, followings list the contents of the example input file:
 
 ```
@@ -68,7 +71,7 @@ The program will output a series of third degree polynomials and the estimates o
 trapezoidal rule. For example, the example file should generate the following output:
 
 ```
-   Interval, Polynomial Degree and Coefficients
+   Interval, Polynomial coefficients
 0.00 - 0.10, 51.49866347 -309.60058285    0.00000000  3386.48256486
 0.10 - 0.20, 57.81516389 -499.09559542 1894.95012574 -2930.01785428
 0.20 - 0.30, 33.31312080 -131.56494904   57.29689381   132.73753226
@@ -85,9 +88,9 @@ Cubic Spline: 0.76994786
    Trapezoid: 1.02220063
 ```
 
-The output lists piecewise polynomials for each interval. The second column lists the coefficients of the constant
-term (X<sup>0</sup>), third the first degree (X<sup>1</sup>), forth the second degree (X<sup>2</sup>), and finally
-fifth the third degree (X<sup>3</sup>).
+The output lists a piecewise polynomial for each interval. After the interval, the coefficients are printed in
+ascending order: constant term (X<sup>0</sup>), first degree (X<sup>1</sup>), second degree (X<sup>2</sup>), and
+third degree (X<sup>3</sup>).
 
 ## `plot_file`
 
@@ -103,10 +106,10 @@ is the output file that contains the estimates from the piecewise polynomials.
 
 ## `data_points`
 
-This parameter specifies the number of data points extrapolated from the piecewise polynomials. This parameter is
-optional. If this parameter is not given, the number of data points will be the same as the input file. For
-example, to generate a file of plot data with 100 data points extrapolated from the piecewise polynomials, issue
-the command:
+This parameter specifies the number of intervals used to sample the piecewise polynomials over lambda values from
+0 to 1. The output includes both endpoints, so it contains `data_points + 1` rows. This parameter is optional. If
+it is not given, the number of output rows will be the same as the number of input rows. For example, to generate
+a file with 100 intervals (101 data rows), issue the command:
 
 `spline example.csv plot.csv 100`
 
