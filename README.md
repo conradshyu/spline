@@ -47,6 +47,9 @@ The spline interpolation program takes three command-line parameters: `input_fil
 The input file must be saved in the plain text format. The first column contains the lambda values and second the
 ensemble averages from the simulations. Each column of data must be separated by a comma, semicolon, or whitespace
 (spaces or tabs). Lines beginning with `#` are ignored.
+At least two data rows are required, and the lambda values must be strictly
+increasing. When generating plot data, the input lambda range must cover 0 to 1,
+because plot output is sampled over that fixed range.
 For example, followings list the contents of the example input file:
 
 ```
